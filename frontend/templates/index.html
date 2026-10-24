@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f7f5">
+    <title>Clima em Foco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <header class="barra-superior">
+        <a class="marca" href="/" aria-label="Clima em Foco, início">
+            <span class="icone-marca" aria-hidden="true">☀</span>
+            <span>Clima em Foco</span>
+        </a>
+        <span class="nota-superior">Consulta meteorológica</span>
+    </header>
+
+    <main class="pagina">
+        <section class="apresentacao">
+            <p class="chamada">O tempo onde você está</p>
+            <h1>Como está o clima?</h1>
+            <p class="subtitulo">Busque uma cidade e escolha o estado e o país corretos.</p>
+        </section>
+
+        <form class="painel-busca" action="/" method="get">
+            <div class="campo campo-cidade">
+                <label for="cidade">Cidade</label>
+                <input id="cidade" name="cidade" value="{{ cidade_pesquisada }}" placeholder="Ex.: Santa Cruz" required>
+            </div>
+            <div class="campo campo-pais">
+                <label for="pais">País</label>
+                <select id="pais" name="pais">
+                    {% for codigo_do_pais, nome_do_pais in lista_de_paises.items() %}
+                    <option value="{{ codigo_do_pais }}" {% if pais_escolhido == codigo_do_pais %}selected{% endif %}>{{ nome_do_pais }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="botao" type="submit">Buscar cidades</button>
+        </form>
+
+        {% if mensagem_de_erro %}
+        <p class="mensagem erro" role="alert">{{ mensagem_de_erro }}</p>
+        {% endif %}
+
+        {% if opcoes_de_localidade %}
+        <section class="resultados" aria-labelledby="titulo-resultados">
+            <div class="titulo-secao">
+                <div>
+                    <h2 id="titulo-resultados">Escolha a localidade</h2>
+                    <p>Confira o estado e o país antes de consultar.</p>
+                </div>
+                <span class="quantidade-resultados">{{ opcoes_de_localidade|length }} opções</span>
+            </div>
+            <div class="lista-localidades">
+                {% for localidade_encontrada in opcoes_de_localidade %}
+                <form class="localidade" action="/clima" method="post">
+                    <div class="informacoes-localidade">
+                        <span class="icone-localidade" aria-hidden="true">⌖</span>
+                        <span>
+                            <strong>{{ localidade_encontrada.name }}</strong>
+                            <span class="detalhe-localidade">
+                                {{ localidade_encontrada.state or 'Estado não informado' }}
+                                · {{ localidade_encontrada.country }}
+                            </span>
+                        </span>
+                    </div>
+                    <input type="hidden" name="latitude" value="{{ localidade_encontrada.lat }}">
+                    <input type="hidden" name="longitude" value="{{ localidade_encontrada.lon }}">
+                    <button class="botao botao-secundario" type="submit">Ver clima</button>
+                </form>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if dados_do_clima %}
+        <section class="clima" aria-live="polite" aria-labelledby="titulo-clima">
+            <div class="clima-principal">
+                <p class="rotulo-clima">CLIMA AGORA</p>
+                <h2 id="titulo-clima">{{ dados_do_clima.cidade }}</h2>
+                <p class="descricao-clima">{{ dados_do_clima.descricao }} · {{ dados_do_clima.pais }}</p>
+            </div>
+            <p class="temperatura">{{ dados_do_clima.temperatura }}<span>°C</span></p>
+            <dl class="detalhes-clima">
+                <div><dt>Sensação térmica</dt><dd>{{ dados_do_clima.sensacao }} °C</dd></div>
+                <div><dt>Umidade</dt><dd>{{ dados_do_clima.umidade }}%</dd></div>
+                <div><dt>Vento</dt><dd>{{ dados_do_clima.vento }} m/s</dd></div>
+            </dl>
+        </section>
+        {% endif %}
+
+        {% if not cidade_pesquisada and not dados_do_clima and not mensagem_de_erro %}
+        <p class="estado-vazio">Digite uma cidade para começar.</p>
+        {% endif %}
+
+        <footer class="rodape">Dados fornecidos pela OpenWeather</footer>
+    </main>
+</body>
+</html>
