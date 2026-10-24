@@ -20,13 +20,22 @@
         <section class="apresentacao">
             <p class="chamada">O tempo onde você está</p>
             <h1>Como está o clima?</h1>
-            <p class="subtitulo">Busque uma cidade e escolha o estado e o país corretos.</p>
+            <p class="subtitulo">Busque uma cidade e escolha o estado e o país corretos. No Brasil, selecione o estado.</p>
         </section>
 
         <form class="painel-busca" action="/" method="get">
             <div class="campo campo-cidade">
                 <label for="cidade">Cidade</label>
                 <input id="cidade" name="cidade" value="{{ cidade_pesquisada }}" placeholder="Ex.: Santa Cruz" required>
+            </div>
+            <div class="campo campo-estado">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                    <option value="">Escolha um estado</option>
+                    {% for sigla_do_estado, nome_do_estado in lista_de_estados.items() %}
+                    <option value="{{ sigla_do_estado }}" {% if estado_escolhido == sigla_do_estado %}selected{% endif %}>{{ nome_do_estado }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="campo campo-pais">
                 <label for="pais">País</label>

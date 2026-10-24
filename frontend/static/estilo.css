@@ -61,7 +61,7 @@ h1 { margin: 0; font-size: clamp(30px, 6vw, 43px); font-weight: 600; letter-spac
 
 .painel-busca {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 190px auto;
+    grid-template-columns: minmax(0, 1fr) 145px 155px auto;
     align-items: end;
     gap: 12px;
     padding: 19px;
@@ -172,7 +172,7 @@ h2 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
 
 @media (max-width: 380px) {
     .painel-busca { grid-template-columns: 1fr; }
-    .campo-cidade, .painel-busca .botao { grid-column: auto; }
+    .campo-cidade, .campo-estado, .campo-pais, .painel-busca .botao { grid-column: auto; }
     .clima { grid-template-columns: 1fr; padding: 19px; }
     .temperatura { justify-self: start; }
     .detalhes-clima { gap: 6px; }

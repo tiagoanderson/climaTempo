@@ -32,6 +32,7 @@ Os nomes do projeto estão em português para que cada parte conte o que faz. Pe
 | `obter_chave_de_acesso` | Lê a chave guardada no `.env`. | Pega o crachá que abre a porta da API. |
 | `buscar_opcoes_de_localidade` | Procura lugares com o nome digitado. | Consulta um atlas e traz cidades parecidas. |
 | `filtrar_localidades_repetidas` | Mantém apenas uma opção para cada cidade, estado e país. | Tira cópias iguais da lista de destinos. |
+| `filtrar_localidades_por_estado` | No Brasil, deixa apenas resultados do estado escolhido. | Confere se a placa do estado combina com o destino. |
 | `consultar_clima_por_coordenadas` | Busca o tempo de latitude e longitude escolhidas. | Chama o repórter do tempo para um ponto exato do mapa. |
 | `explicar_erro_da_api` | Transforma falhas técnicas em mensagens mais claras. | Traduz o recado complicado do robô. |
 | `mostrar_pagina_inicial` | Mostra a busca e as cidades encontradas. | Abre o balcão de atendimento. |
@@ -88,11 +89,13 @@ Abra `http://127.0.0.1:5000` no navegador. A rota `/` exibe o formulário. Quand
 
 ## 4. Buscar localidades correspondentes
 
-Uma cidade pode ter o mesmo nome que outras cidades. Por isso, o backend primeiro consulta a Geocoding API da OpenWeather, em vez de pedir o clima diretamente pelo nome.
+Uma cidade pode ter o mesmo nome que outras cidades. Por isso, no Brasil, escolha também o estado antes de buscar. A aplicação filtra os resultados da OpenWeather para manter apenas os que correspondem ao estado escolhido. A Geocoding API também pode retornar áreas e distritos, então o nome sozinho nem sempre identifica um município.
 
 O backend envia o nome digitado, o país escolhido e o limite de resultados. A resposta é JSON. Cada correspondência pode incluir nome, país, estado, latitude e longitude. A API retorna até cinco resultados por busca.
 
-Na página, cada resultado mostra a cidade e sua região. A pessoa escolhe a opção correta pelo estado e país. Alguns resultados podem não conter estado; nesses casos, a página avisa que a informação não foi fornecida.
+Para o Brasil, o backend usa o estado escolhido para conferir cada resultado recebido, pois a busca da OpenWeather não restringe municípios brasileiros por UF.
+
+Na página, cada resultado mostra a cidade e sua região. No Brasil, os resultados sem estado ou de outro estado escolhido não são exibidos. Em outros países, confira o estado e o país apresentados antes de escolher.
 
 ## 5. Consultar o clima pela localização escolhida
 
