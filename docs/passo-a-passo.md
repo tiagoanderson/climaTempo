@@ -68,7 +68,7 @@ Flask cria o servidor e as rotas. Requests envia chamadas HTTP. python-dotenv l�
 
 ## 2. Configurar a chave da API
 
-Crie uma conta na OpenWeather e gere uma chave para a API. Faça uma cópia de `.env.example` com o nome `.env` e substitua o texto de exemplo:
+Acesse o [portal da OpenWeather para criar ou consultar sua chave de API](https://openweathermap.org/appid). Depois de criar sua conta e gerar a chave, faça uma cópia de `.env.example` com o nome `.env` e substitua o texto de exemplo:
 
 ```text
 OPENWEATHER_KEY=sua_chave_real
@@ -178,6 +178,7 @@ O Render define a variável `$PORT`; o Gunicorn usa essa porta e aceita conexõe
 
 ## Referências
 
+- [Criar ou consultar uma chave de API da OpenWeather](https://openweathermap.org/appid)
 - [Geocoding API](https://openweathermap.org/api/geocoding-api)
 - [Current Weather API](https://openweathermap.org/api/current)
 - [Guia oficial do Render para Flask](https://render.com/docs/deploy-flask)
